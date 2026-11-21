@@ -1,104 +1,120 @@
 # LoviLink by N3M0
 
-**Independent Network Operations & Business Management Platform**
+### Independent Network Operations & Business Management Platform
 
-LoviLink is an independently developed modular software platform designed to bring network infrastructure monitoring, operational management, subscriber services, and business processes together in a unified environment.
+**LoviLink** is an independently developed modular software platform designed for network operations, infrastructure management and business process automation.
 
-The project is developed under the **N3M0** identity with a focus on its own architecture, software components, data processing logic, and long-term independent development.
+The project is developed by **N3M0** with its own architectural direction, modular structure, application logic and development roadmap.
+
+LoviLink aims to bring network monitoring, infrastructure operations, subscriber management, service processes and analytics together within one extensible platform.
 
 ---
 
-## Project Vision
+## Project vision
 
-The goal of LoviLink is to create a unified platform for managing telecommunications infrastructure and related business operations.
+The goal of LoviLink is to provide a unified environment for managing the technical and operational activities of network service providers.
 
-The platform is designed to combine technical monitoring, infrastructure management, subscriber administration, service workflows, and analytics within one extensible system.
+The platform is designed around independent functional modules coordinated by a shared core.
 
-LoviLink is being developed as an independent software product. External systems and third-party services may be integrated when useful, but they are not intended to be mandatory foundations of the platform.
+Its architecture is intended to support gradual expansion, integration with external systems and deployment in different infrastructure environments.
 
-## Core Modules
+## Platform modules
 
 | Module | Purpose |
 |---|---|
-| **LoviLink Core** | Application foundation, API, authentication, authorization, and shared services |
-| **LoviLink NMS** | Network monitoring, metrics, events, alerts, history, and SLA |
-| **LoviLink OSS** | Infrastructure topology, equipment inventory, and resource management |
-| **LoviLink BSS** | Subscribers, contracts, tariffs, accounts, billing, and payments |
-| **LoviLink CRM** | Customer relations, requests, incidents, and service workflows |
-| **LoviLink Analytics** | Operational statistics, reports, and analytical tools |
+| **LoviLink Core** | Platform core, module lifecycle, configuration, shared services and API coordination |
+| **NMS** | Network monitoring, metrics, events, alerts, availability and SLA tracking |
+| **OSS** | Network infrastructure, topology, equipment inventory and resource management |
+| **BSS / Billing** | Subscribers, contracts, service plans, accounts, charges and payments |
+| **CRM / Service Desk** | Customer requests, incidents, support workflows and service operations |
+| **Analytics** | Operational reports, performance analysis and aggregated data |
 
-These modules represent the target platform structure. Their implementation and availability will evolve progressively and will be documented according to actual development results.
+The modules represent the target functional architecture. Their implementation and maturity may differ at the current stage of development.
 
-## Development Principles
+## Independent development
 
-- **Independent development** — LoviLink is designed and developed as a standalone software product.
-- **Modular architecture** — platform capabilities are separated into functional modules.
-- **Extensibility** — new features and integrations can be introduced without requiring a complete redesign.
-- **Data ownership** — platform data and access are managed through controlled application mechanisms.
-- **Security** — authentication, authorization, and role-based access are considered fundamental architectural requirements.
-- **Integration flexibility** — external products and services can extend functionality without defining the platform's core architecture.
-- **Incremental delivery** — development progress is measured by implemented and verified functionality.
+LoviLink is developed as an independent software project.
 
-## Architecture
+Its architecture, internal application logic, module structure and development priorities are defined specifically for LoviLink.
 
-LoviLink follows a modular architecture in which the core application provides shared services and functional modules implement specific operational domains.
+The project may use third-party libraries, frameworks and external services where appropriate. Such use does not make those products the core of the platform.
 
-The architecture is intended to support:
+External integrations are intended to extend functionality rather than impose a mandatory dependency on a particular third-party system.
 
-- centralized application access;
-- modular APIs and service boundaries;
-- equipment and infrastructure data collection;
-- event processing and notification workflows;
-- historical data and analytics;
-- user roles and access control;
-- optional integrations with external systems.
+## Architecture principles
 
-The architecture document describes the intended design and distinguishes planned capabilities from implemented functionality.
+- Modular architecture and separation of responsibilities.
+- Centralized coordination through LoviLink Core.
+- Independent development and evolution of functional modules.
+- Consistent APIs and shared platform services.
+- Extensibility and integration capabilities.
+- Role-based access control and security-oriented design.
+- Gradual implementation with verification of each functional area.
 
-See [ARCHITECTURE.md](ARCHITECTURE.md).
+## Current development direction
+
+Development is focused on establishing the platform's architecture and gradually expanding its functional capabilities.
+
+The existing implementation includes network monitoring mechanisms, equipment data collection, API services, event and alert processing, and a web dashboard.
+
+Further development includes strengthening the core architecture, validating existing functionality, improving data management and implementing additional operational and business modules.
+
+The publication of a planned module in this document does not mean that the module is already fully implemented or production-ready.
 
 ## Technology
 
-The platform uses an evolving technology stack selected according to the requirements of individual modules.
+The technology stack is selected according to the needs of individual components.
 
-The project may use open-source libraries, frameworks, databases, and external services. Their use does not make the LoviLink platform dependent on any single external monitoring or business-management product.
+The current implementation uses Python and FastAPI for backend services and web APIs. Additional technologies and infrastructure components may be introduced as the platform evolves.
 
-Specific implementation details and dependencies will be documented as the platform develops.
+Third-party technologies are used as supporting components, not as substitutes for LoviLink's own architecture and application logic.
 
-## Development Status
+## Roadmap
+
+The project roadmap covers the following development areas:
+
+1. Architecture, documentation and platform core.
+2. Network monitoring and NMS capabilities.
+3. Infrastructure management and OSS.
+4. Subscriber management and BSS / Billing.
+5. CRM and Service Desk.
+6. Analytics and reporting.
+7. Security, integrations and access management.
+8. Testing, deployment and production readiness.
+
+Implementation is iterative. Priorities may change as technical validation and development progress.
+
+## Project status
 
 LoviLink is under active development.
 
-The project is progressing through architectural definition, documentation, technical verification, and implementation of its functional modules.
+The architecture and functional scope are being established, while existing components are subject to further validation and improvement.
 
-Not all modules and capabilities described in the target architecture are currently available. The project status document is the reference for distinguishing implemented, in-progress, and planned functionality.
+The project should not be considered a complete production-ready NMS, OSS, BSS or CRM solution until the relevant functionality has been implemented, tested and documented.
 
-See [PROJECT_STATUS.md](PROJECT_STATUS.md) and [ROADMAP.md](ROADMAP.md).
+## Licensing and ownership
 
-## Documentation
+LoviLink is a proprietary software project.
 
-| Document | Description |
-|---|---|
-| [README.md](README.md) | Project overview and development principles |
-| [ARCHITECTURE.md](ARCHITECTURE.md) | Platform architecture and module structure |
-| [ROADMAP.md](ROADMAP.md) | Development stages and planned milestones |
-| [PROJECT_STATUS.md](PROJECT_STATUS.md) | Current implementation status |
-| [LICENSING.md](LICENSING.md) | Preliminary licensing policy |
+The project is developed by **N3M0**. All rights to original project materials and original source code are reserved by the respective rights holder, subject to applicable third-party licenses.
 
-## Licensing and Ownership
+The presence of third-party libraries, frameworks or components does not transfer ownership of the original LoviLink materials to their respective authors or vendors.
 
-LoviLink is a proprietary software project developed under the N3M0 identity.
+Use, modification, redistribution, sublicensing and commercial exploitation of LoviLink are subject to the applicable license terms and any separate written agreement.
 
-Unless explicitly stated otherwise, the project documentation and original software components are reserved under the applicable rights of their respective authors and rights holders.
+See [LICENSING.md](LICENSING.md) for additional information.
 
-Third-party libraries and components remain subject to their own licenses.
+## Project documentation
 
-The preliminary licensing policy is available in [LICENSING.md](LICENSING.md). Specific commercial, partner, and end-user terms may be established in separate legal documents.
+- [Architecture](ARCHITECTURE.md)
+- [Development roadmap](ROADMAP.md)
+- [Project status](PROJECT_STATUS.md)
+- [Licensing](LICENSING.md)
 
-## Project Identity
+## Project information
 
 **Project:** LoviLink  
-**Developer identity:** N3M0  
+**Developer:** N3M0  
 **Repository:** [LoviLink by N3M0](https://github.com/LoviLink-by-N3M0/lovilink)  
 **Support:** lovilink.support@gmail.com
 
@@ -106,108 +122,124 @@ The preliminary licensing policy is available in [LICENSING.md](LICENSING.md). S
 
 # LoviLink by N3M0
 
-**Независимая платформа управления сетевой инфраструктурой и бизнес-процессами**
+### Независимая платформа управления сетевыми операциями и бизнес-процессами
 
-LoviLink — самостоятельно разрабатываемая модульная программная платформа, предназначенная для объединения мониторинга сетевой инфраструктуры, управления техническими ресурсами, обслуживания абонентов и автоматизации бизнес-процессов в единой системе.
+**LoviLink** — самостоятельно разрабатываемая модульная программная платформа для управления сетевыми операциями, инфраструктурой и бизнес-процессами операторов связи.
 
-Проект развивается под идентичностью **N3M0** с акцентом на собственную архитектуру, программные компоненты, логику обработки данных и независимое развитие.
+Проект развивается под авторством **N3M0** и имеет собственное архитектурное направление, модульную структуру, прикладную логику и дорожную карту разработки.
+
+Цель LoviLink — объединить мониторинг сети, эксплуатацию инфраструктуры, управление абонентами, сервисные процессы и аналитику в единой расширяемой платформе.
 
 ---
 
 ## Концепция проекта
 
-Цель LoviLink — создание единой платформы для управления телекоммуникационной инфраструктурой и связанными с ней бизнес-процессами.
+LoviLink предназначен для создания единой среды управления технической и операционной деятельностью операторов связи.
 
-Платформа проектируется как объединённая среда для технического мониторинга, управления инфраструктурой, администрирования абонентов, обработки обращений и аналитики.
+Платформа строится на основе независимых функциональных модулей, взаимодействующих через общее ядро.
 
-LoviLink разрабатывается как самостоятельный программный продукт. Внешние системы и сторонние сервисы могут подключаться при необходимости, но не должны становиться обязательной основой платформы.
+Архитектура предусматривает постепенное расширение, интеграцию с внешними системами и возможность развёртывания в различных инфраструктурных средах.
 
-## Основные модули
+## Модули платформы
 
 | Модуль | Назначение |
 |---|---|
-| **LoviLink Core** | Основа приложения, API, аутентификация, авторизация и общие сервисы |
-| **LoviLink NMS** | Мониторинг сети, метрики, события, оповещения, история и SLA |
-| **LoviLink OSS** | Топология инфраструктуры, инвентаризация оборудования и управление ресурсами |
-| **LoviLink BSS** | Абоненты, договоры, тарифы, лицевые счета, биллинг и платежи |
-| **LoviLink CRM** | Работа с клиентами, обращениями, инцидентами и заявками |
-| **LoviLink Analytics** | Операционная статистика, отчёты и аналитические инструменты |
+| **LoviLink Core** | Ядро платформы, жизненный цикл модулей, конфигурация, общие сервисы и координация API |
+| **NMS** | Мониторинг сети, метрики, события, оповещения, доступность и контроль SLA |
+| **OSS** | Сетевая инфраструктура, топология, инвентаризация оборудования и управление ресурсами |
+| **BSS / Billing** | Абоненты, договоры, тарифы, лицевые счета, начисления и платежи |
+| **CRM / Service Desk** | Обращения клиентов, инциденты, заявки и процессы технической поддержки |
+| **Analytics** | Операционная отчётность, анализ показателей и агрегированные данные |
 
-Это целевая структура платформы. Реализация и доступность отдельных модулей будут развиваться постепенно и отражаться в документации в соответствии с фактическими результатами разработки.
+Перечисленные модули описывают целевую функциональную архитектуру. Степень их реализации и готовности на текущем этапе может различаться.
 
-## Принципы разработки
+## Самостоятельная разработка
 
-- **Самостоятельная разработка** — LoviLink проектируется и создаётся как независимый программный продукт.
-- **Модульная архитектура** — функциональность разделяется на отдельные логические модули.
-- **Расширяемость** — новые возможности и интеграции можно добавлять без полного перепроектирования системы.
-- **Контроль данных** — управление данными платформы и доступом к ним осуществляется средствами приложения.
-- **Безопасность** — аутентификация, авторизация и разграничение прав пользователей являются фундаментальными требованиями.
-- **Гибкость интеграций** — внешние продукты и сервисы могут расширять функциональность, не определяя архитектуру ядра.
-- **Поэтапное развитие** — прогресс оценивается по фактически реализованной и проверенной функциональности.
+LoviLink развивается как самостоятельный программный проект.
 
-## Архитектура
+Его архитектура, внутренняя прикладная логика, структура модулей и приоритеты развития определяются непосредственно в рамках разработки LoviLink.
 
-LoviLink строится на модульной архитектуре, в которой ядро приложения предоставляет общие сервисы, а функциональные модули отвечают за конкретные направления работы.
+При необходимости допускается использование сторонних библиотек, фреймворков и внешних сервисов. Их применение не делает сторонние продукты ядром платформы.
 
-Архитектура предусматривает:
+Внешние интеграции предназначены для расширения возможностей LoviLink, а не для создания обязательной зависимости от конкретной сторонней системы.
 
-- централизованный доступ к приложению;
-- модульные API и границы сервисов;
-- сбор данных об оборудовании и инфраструктуре;
-- обработку событий и систему уведомлений;
-- хранение истории и аналитических данных;
-- пользовательские роли и разграничение доступа;
-- необязательные интеграции с внешними системами.
+## Архитектурные принципы
 
-В документе архитектуры целевой проект отделён от уже реализованных возможностей.
+- Модульная архитектура и разделение ответственности.
+- Централизованная координация через LoviLink Core.
+- Независимое развитие функциональных модулей.
+- Единые API и общие сервисы платформы.
+- Возможность расширения и интеграции.
+- Разграничение доступа по ролям и внимание к безопасности.
+- Поэтапная реализация с проверкой каждого функционального направления.
 
-Подробнее: [ARCHITECTURE.md](ARCHITECTURE.md).
+## Текущее направление разработки
+
+Разработка сосредоточена на формировании архитектуры платформы и последовательном расширении её функциональности.
+
+Существующая реализация включает механизмы мониторинга сети, сбор данных с оборудования, API-сервисы, обработку событий и оповещений, а также веб-интерфейс.
+
+Дальнейшее развитие предусматривает укрепление архитектуры ядра, проверку существующих механизмов, совершенствование управления данными и реализацию дополнительных операционных и бизнес-модулей.
+
+Наличие модуля в документации не означает, что он уже полностью реализован или готов к промышленной эксплуатации.
 
 ## Технологии
 
-Технологический стек платформы развивается с учётом требований отдельных модулей.
+Технологический стек выбирается с учётом задач отдельных компонентов платформы.
 
-В проекте могут использоваться библиотеки с открытым исходным кодом, фреймворки, базы данных и внешние сервисы. Их применение не означает зависимости LoviLink от какой-либо одной внешней системы мониторинга или управления бизнесом.
+В текущей реализации для серверной части и API используются Python и FastAPI. По мере развития проекта могут применяться дополнительные технологии и инфраструктурные компоненты.
 
-Конкретные технические решения и зависимости будут отражаться в документации по мере развития платформы.
+Сторонние технологии выступают вспомогательными средствами разработки, а не заменой собственной архитектуры и прикладной логики LoviLink.
 
-## Состояние разработки
+## Дорожная карта
+
+Основные направления развития проекта:
+
+1. Архитектура, документация и ядро платформы.
+2. Мониторинг сети и функциональность NMS.
+3. Управление инфраструктурой и OSS.
+4. Управление абонентами и BSS / Billing.
+5. CRM и Service Desk.
+6. Аналитика и отчётность.
+7. Безопасность, интеграции и управление доступом.
+8. Тестирование, развёртывание и подготовка к промышленной эксплуатации.
+
+Разработка ведётся итеративно. Приоритеты могут корректироваться по результатам технической проверки и реализации отдельных компонентов.
+
+## Статус проекта
 
 LoviLink находится в активной разработке.
 
-Работа ведётся по направлениям формирования архитектуры, подготовки документации, технической проверки и реализации функциональных модулей.
+Формируются архитектура и функциональный состав платформы, существующие компоненты проходят дальнейшую проверку и совершенствование.
 
-Не все модули и возможности, описанные в целевой архитектуре, уже реализованы. Актуальный статус проекта используется для разграничения готовой, разрабатываемой и запланированной функциональности.
-
-Подробнее: [PROJECT_STATUS.md](PROJECT_STATUS.md) и [ROADMAP.md](ROADMAP.md).
-
-## Документация
-
-| Документ | Описание |
-|---|---|
-| [README.md](README.md) | Обзор проекта и принципы разработки |
-| [ARCHITECTURE.md](ARCHITECTURE.md) | Архитектура платформы и структура модулей |
-| [ROADMAP.md](ROADMAP.md) | Этапы и план развития |
-| [PROJECT_STATUS.md](PROJECT_STATUS.md) | Текущее состояние реализации |
-| [LICENSING.md](LICENSING.md) | Предварительная политика лицензирования |
+До реализации, тестирования и документального подтверждения соответствующих возможностей проект не следует считать полностью готовым к промышленной эксплуатации решением NMS, OSS, BSS или CRM.
 
 ## Лицензирование и права
 
-LoviLink является проприетарным программным проектом, разрабатываемым под идентичностью N3M0.
+LoviLink является проприетарным программным проектом.
 
-Если не указано иное, права на оригинальные программные компоненты и документацию проекта сохраняются за соответствующими авторами и правообладателями в соответствии с применимым законодательством.
+Разработчик проекта — **N3M0**. Все права на оригинальные материалы проекта и оригинальный исходный код сохраняются за соответствующим правообладателем с учётом применимых лицензий сторонних компонентов.
 
-Сторонние библиотеки и компоненты продолжают распространяться на условиях собственных лицензий.
+Наличие сторонних библиотек, фреймворков и компонентов не передаёт их авторам или поставщикам права на оригинальные материалы LoviLink.
 
-Предварительная политика лицензирования опубликована в [LICENSING.md](LICENSING.md). Конкретные условия коммерческого использования, партнёрства и предоставления конечным пользователям могут оформляться отдельными юридическими документами.
+Использование, изменение, распространение, сублицензирование и коммерческая эксплуатация LoviLink регулируются применимыми условиями лицензирования и отдельными письменными соглашениями.
 
-## Идентификация проекта
+Дополнительная информация представлена в документе [LICENSING.md](LICENSING.md).
+
+## Документация проекта
+
+- [Архитектура](ARCHITECTURE.md)
+- [Дорожная карта](ROADMAP.md)
+- [Статус проекта](PROJECT_STATUS.md)
+- [Лицензирование](LICENSING.md)
+
+## Информация о проекте
 
 **Проект:** LoviLink  
-**Идентичность разработчика:** N3M0  
+**Разработчик:** N3M0  
 **Репозиторий:** [LoviLink by N3M0](https://github.com/LoviLink-by-N3M0/lovilink)  
 **Поддержка:** lovilink.support@gmail.com
 
 ---
 
-**LoviLink by N3M0 — самостоятельная разработка, единая архитектура, модульное развитие.**
+© N3M0. All rights reserved.

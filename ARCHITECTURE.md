@@ -1,12 +1,12 @@
 # LoviLink by N3M0 — System Architecture
 
-### Network Operations & Business Management Platform
+### Independent Network Operations & Business Management Platform
 
 **Document type:** System Architecture  
 **Project:** LoviLink by N3M0  
-**Architecture version:** 1.0  
+**Architecture version:** 2.0  
 **Development status:** Architecture definition and gradual implementation  
-**Copyright holder:** N3M0
+**Developer identity:** N3M0
 
 ---
 
@@ -14,97 +14,135 @@
 
 ## 1. Architecture Overview
 
-LoviLink is designed as a modular Network Operations & Business Management Platform.
+LoviLink is an independently developed modular Network Operations & Business Management Platform.
 
-The platform combines network monitoring, infrastructure management, subscriber operations, service management, analytics, and optional integrations within a unified application.
+The platform is designed to combine network monitoring, infrastructure management, subscriber operations, service management, analytics, and optional external integrations within one unified application.
 
-The architecture follows an incremental development approach: existing working components are preserved and extended where technically appropriate.
+LoviLink follows its own architectural direction and is developed as a standalone software product. Its core functionality is not intended to depend on third-party monitoring, billing, or business-management platforms.
 
-The system is intended to operate independently without requiring third-party monitoring or billing platforms.
+The architecture is based on a central application core, shared services, independent functional modules, and clearly defined data and integration interfaces.
+
+Development is incremental. Existing working components are preserved, technically verified, and extended where appropriate.
 
 ## 2. Architectural Principles
 
-The architecture is based on the following principles:
+The platform is designed around the following principles:
 
-1. **Modularity** — functional areas are separated into logical modules.
-2. **Independence** — core functionality does not require external platforms.
-3. **Extensibility** — new modules can be introduced without unnecessary redesign.
-4. **Data consistency** — shared infrastructure and operational data should have clear ownership.
-5. **Security** — authentication, role-based permissions, and auditability.
-6. **Maintainability** — clear separation between application layers.
-7. **Compatibility** — existing collectors and integrations should be preserved where possible.
-8. **Scalability** — the architecture should support gradual growth in devices, subscribers, and operational workloads.
+1. **Independent development** — LoviLink is developed as a standalone software product with its own architecture and application logic.
+2. **Modularity** — functional domains are separated into logical modules with defined responsibilities.
+3. **Core independence** — essential platform functionality must operate without mandatory external products.
+4. **Extensibility** — new modules and capabilities can be introduced without unnecessary redesign.
+5. **Data consistency** — shared data has defined ownership, validation rules, and access policies.
+6. **Security** — authentication, authorization, role-based access, and auditability are architectural requirements.
+7. **Maintainability** — application layers and responsibilities are clearly separated.
+8. **Interoperability** — documented APIs allow controlled communication with external systems.
+9. **Scalability** — the platform should support gradual growth in devices, subscribers, and operational workloads.
+10. **Incremental implementation** — architecture and development status must distinguish implemented capabilities from planned functionality.
 
 ## 3. High-Level Architecture
 
-The target architecture consists of the following logical layers:
+The target architecture consists of six logical layers:
 
 ```text
-+------------------------------------------------------+
-|                    USER INTERFACE                    |
-|                                                      |
-| Dashboard | Devices | Topology | Subscribers         |
-| Billing | Incidents | Service Desk | Analytics       |
-+------------------------------------------------------+
-                         |
-                         v
-+------------------------------------------------------+
-|                  APPLICATION LAYER                   |
-|                                                      |
-| NMS | OSS | BSS | CRM | Analytics | Administration   |
-+------------------------------------------------------+
-                         |
-                         v
-+------------------------------------------------------+
-|                     SERVICE LAYER                    |
-|                                                      |
-| Authentication | Permissions | Business Logic       |
-| Event Processing | Notifications | Task Management   |
-+------------------------------------------------------+
-                         |
-                         v
-+------------------------------------------------------+
-|                     DATA LAYER                       |
-|                                                      |
-| Device Data | Historical Metrics | Events            |
-| Subscribers | Services | Contracts | Inventory       |
-+------------------------------------------------------+
-                         |
-                         v
-+------------------------------------------------------+
-|                INFRASTRUCTURE LAYER                   |
-|                                                      |
-| Poller | Collectors | Network Devices | External APIs|
-+------------------------------------------------------+
++----------------------------------------------------------+
+|                    USER INTERFACE                        |
+|                                                          |
+| Dashboard | Devices | Topology | Subscribers             |
+| Billing | Incidents | Service Desk | Analytics           |
++----------------------------------------------------------+
+                            |
+                            v
++----------------------------------------------------------+
+|                    APPLICATION LAYER                     |
+|                                                          |
+| NMS | OSS | BSS | CRM | Analytics | Administration        |
++----------------------------------------------------------+
+                            |
+                            v
++----------------------------------------------------------+
+|                     LOVILINK CORE                        |
+|                                                          |
+| Application Lifecycle | Module Management               |
+| API Coordination | Configuration | Shared Context        |
++----------------------------------------------------------+
+                            |
+                            v
++----------------------------------------------------------+
+|                      SERVICE LAYER                       |
+|                                                          |
+| Authentication | Authorization | Business Logic          |
+| Event Processing | Notifications | Background Tasks      |
+| Audit | Validation | Scheduling                          |
++----------------------------------------------------------+
+                            |
+                            v
++----------------------------------------------------------+
+|                       DATA LAYER                          |
+|                                                          |
+| Devices | Metrics | Events | Subscribers | Services      |
+| Contracts | Billing | Inventory | Audit Records           |
++----------------------------------------------------------+
+                            |
+                            v
++----------------------------------------------------------+
+|                  INFRASTRUCTURE LAYER                     |
+|                                                          |
+| Collectors | Polling | Databases | Network Equipment      |
+| Operating Environment | Optional External APIs           |
++----------------------------------------------------------+
 ```
 
-This diagram describes the target logical architecture. It does not imply that all modules are already implemented as separate services.
+This diagram describes the target logical architecture. It does not imply that all modules are already implemented as independent services or that all planned functions are currently available.
 
-## 4. Existing Technical Foundation
+The architecture does not require a microservices deployment model. Modules may initially operate within a unified application while maintaining clear logical boundaries.
 
-The original NetWatch2 project provides the foundation for LoviLink.
+## 4. LoviLink Core
 
-The currently established technical direction includes:
+LoviLink Core is the central application foundation.
 
-| Component | Responsibility |
-|---|---|
-| Python | Backend application logic |
-| FastAPI | HTTP API and application endpoints |
-| Poller | Scheduled device monitoring |
-| Collectors | Equipment-specific data collection |
-| Cache | Access to recently collected information |
-| Historical data | Storage and retrieval of monitoring history |
-| Event processing | Detection and handling of monitoring events |
-| Notifications | External alert delivery, including ntfy |
-| Web interface | Dashboard and operational controls |
+Its purpose is to provide shared mechanisms required by the functional modules and maintain consistency across the platform.
 
-The existing implementation is being developed incrementally. Exact implementation details and technology dependencies are subject to technical verification.
+### 4.1 Core responsibilities
 
-## 5. Core Modules
+- Application initialization and lifecycle.
+- Module registration and coordination.
+- Shared configuration management.
+- Common API infrastructure.
+- Authentication and authorization integration.
+- Common validation and error handling.
+- Shared application context.
+- Background task coordination.
+- Logging and audit integration.
+- Health checks and operational diagnostics.
+
+### 4.2 Core design principles
+
+The Core must not become a collection of unrelated business functions.
+
+Its responsibilities are limited to shared application infrastructure and cross-module coordination.
+
+Business-specific functionality belongs to the relevant functional module.
+
+The Core should expose documented internal interfaces to modules and avoid unnecessary direct dependencies between them.
+
+### 4.3 Module independence
+
+Each functional module should have:
+
+- A defined purpose and responsibility.
+- Its own domain logic.
+- Explicit data requirements.
+- Controlled access to shared services.
+- Documented interfaces.
+- A clear implementation status.
+
+Modules should communicate through established application interfaces rather than relying on undocumented internal dependencies.
+
+## 5. Functional Modules
 
 ### 5.1 NMS — Network Management System
 
-The NMS module is responsible for network monitoring and equipment status.
+NMS is responsible for network monitoring and equipment status management.
 
 Planned responsibilities:
 
@@ -118,12 +156,13 @@ Planned responsibilities:
 - Event severity and prioritization.
 - Alert notifications.
 - SLA monitoring.
+- Monitoring diagnostics.
 
-The existing Poller and equipment collectors form the foundation of this module.
+The existing monitoring mechanisms, polling logic, and equipment-specific data collection are candidates for integration into the NMS module after technical verification.
 
 ### 5.2 OSS — Operations Support System
 
-The OSS module manages network infrastructure and operational resources.
+OSS manages network infrastructure and operational resources.
 
 Planned responsibilities:
 
@@ -133,12 +172,16 @@ Planned responsibilities:
 - IP address management.
 - Provider and uplink management.
 - Equipment locations.
+- Infrastructure resource management.
 - Maintenance records.
 - Infrastructure change history.
+- Relationship between network elements.
+
+OSS is intended to provide a structured representation of the physical and logical infrastructure.
 
 ### 5.3 BSS — Business Support System
 
-The BSS module provides subscriber and service management.
+BSS provides subscriber, service, and billing management.
 
 Planned responsibilities:
 
@@ -151,12 +194,15 @@ Planned responsibilities:
 - Personal accounts.
 - Charges and payments.
 - Billing history.
+- Financial operation records.
 
-Financial operations must use controlled and auditable business logic.
+Financial operations must use controlled business logic with validation, access restrictions, and auditability.
+
+Billing calculations and financial records must be traceable and protected against unauthorized modification.
 
 ### 5.4 CRM and Service Desk
 
-This module manages customer interactions and operational tasks.
+CRM manages customer interactions and operational service workflows.
 
 Planned responsibilities:
 
@@ -168,10 +214,14 @@ Planned responsibilities:
 - Service history.
 - Notifications.
 - Resolution tracking.
+- Request status management.
+- Communication history.
+
+The module should support traceable workflows from request registration to resolution.
 
 ### 5.5 Analytics
 
-The analytics module provides operational and business reporting.
+Analytics provides operational and business reporting.
 
 Planned responsibilities:
 
@@ -181,9 +231,35 @@ Planned responsibilities:
 - Incident analysis.
 - SLA reports.
 - Subscriber statistics.
+- Service performance indicators.
 - Operational dashboards.
+- Business reporting.
 
-## 6. Monitoring Data Flow
+Analytical functions should use validated data from the relevant platform modules.
+
+## 6. Shared Service Layer
+
+The service layer provides reusable application services used by LoviLink Core and functional modules.
+
+Target service areas include:
+
+| Service | Responsibility |
+|---|---|
+| Authentication | User identity verification |
+| Authorization | Access control and permissions |
+| Event Processing | Event registration, classification, and handling |
+| Notifications | Delivery of alerts and system messages |
+| Scheduling | Scheduled operations and polling coordination |
+| Background Tasks | Execution of asynchronous operations |
+| Validation | Input and business data validation |
+| Audit | Recording significant user and system actions |
+| Logging | Application diagnostics and operational records |
+
+Services should have documented interfaces and predictable behavior.
+
+Where appropriate, common services should be reused rather than independently reimplemented in every module.
+
+## 7. Monitoring Data Flow
 
 The target monitoring workflow is:
 
@@ -194,10 +270,13 @@ Network Equipment
 Equipment Collector
        |
        v
-Poller
+Polling / Scheduling
        |
        v
 Data Validation
+       |
+       v
+Normalization
        |
        v
 Cache / Historical Storage
@@ -205,22 +284,28 @@ Cache / Historical Storage
        v
 Event Processing
        |
-       +------------------+
-       |                  |
-       v                  v
+       +-------------------+
+       |                   |
+       v                   v
 Dashboard             Notifications
        |
        v
 Analytics and Reports
 ```
 
-The workflow represents the intended logical process. Specific storage and processing mechanisms depend on the implementation of each component.
+The workflow represents the intended logical process.
 
-## 7. Application API
+Specific collection methods, polling intervals, storage mechanisms, and processing rules depend on the implementation of each component.
 
-FastAPI provides the HTTP API foundation.
+The monitoring subsystem should support different equipment types through clearly separated collectors and common data-processing interfaces.
 
-Existing API areas include:
+## 8. Application API
+
+The application API provides controlled access to platform functionality.
+
+The current technical foundation uses FastAPI for HTTP API functionality.
+
+Existing API areas identified during architecture preparation include:
 
 | Endpoint | Purpose |
 |---|---|
@@ -231,13 +316,25 @@ Existing API areas include:
 | `/api/device/{device_id}/history` | Device monitoring history |
 | `/users` | User-related operations |
 
-These endpoints describe the existing API surface known during architecture preparation. Their exact behavior and access restrictions must be verified against the current source code.
+This list describes known API areas and is not a complete specification of the future platform API.
 
-Future API development should use consistent resource naming, validation, authentication, authorization, and documented response formats.
+The exact behavior, data formats, and access restrictions must be verified against the current implementation.
 
-## 8. Data Architecture
+Future API development should provide:
 
-The platform requires structured management of several data domains:
+- Consistent resource naming.
+- Input validation.
+- Authentication and authorization.
+- Documented request and response formats.
+- Predictable error handling.
+- Versioning where required.
+- Controlled access to module functionality.
+
+Internal module interfaces and external integration interfaces should be distinguished.
+
+## 9. Data Architecture
+
+LoviLink requires structured management of several data domains:
 
 - Network devices.
 - Device measurements.
@@ -251,14 +348,31 @@ The platform requires structured management of several data domains:
 - Support requests.
 - User accounts and permissions.
 - Audit records.
+- Application configuration.
+
+### 9.1 Data ownership
+
+Each functional module should have clearly defined responsibility for its domain data.
+
+Shared data must be accessed through documented application interfaces and validation rules.
+
+### 9.2 Data integrity
 
 The data model should distinguish technical monitoring records from business and financial records.
 
 Changes to critical business data must be traceable.
 
-The final database schema and storage technologies will be documented after source-code and database auditing.
+Financial records and account operations require additional integrity and audit controls.
 
-## 9. Security and Access Control
+### 9.3 Storage
+
+The final database schema, storage technologies, retention policies, and data relationships will be documented after source-code and database auditing.
+
+No unverified database design should be presented as an implemented platform capability.
+
+## 10. Security and Access Control
+
+Security is a fundamental architectural requirement.
 
 The target security model includes:
 
@@ -271,53 +385,104 @@ The target security model includes:
 - Secure configuration management.
 - Backup and recovery procedures.
 - Protection of credentials and infrastructure secrets.
+- Validation of user input.
+- Controlled access to sensitive business operations.
 
-Access permissions should be enforced on the backend, not only by hiding interface elements.
+Access permissions must be enforced on the backend, not only by hiding interface elements.
 
-## 10. Integrations
+Modules must use shared authorization mechanisms and follow the platform's access policies.
+
+## 11. Integrations
 
 LoviLink is designed to operate independently.
 
-External integrations are optional and may include:
+External integrations are optional and may extend platform functionality.
+
+Potential integration areas include:
 
 - Zabbix.
 - Network equipment APIs.
 - Notification services.
 - External billing systems.
 - Third-party service platforms.
+- Other infrastructure management systems.
 
-Integration should use documented interfaces and should not make core LoviLink functionality dependent on an external product.
+Integration principles:
 
-## 11. Deployment Architecture
+1. External systems must not be mandatory for core LoviLink functionality.
+2. Integration interfaces must be documented.
+3. Data exchange must use controlled and validated mechanisms.
+4. External dependencies must be identifiable and manageable.
+5. The platform must retain its own application logic and module responsibilities.
 
-The existing project has a Linux-based deployment foundation.
+An integration with an external product does not replace the corresponding native LoviLink module.
 
-The deployment model is intended to support:
+## 12. Deployment Architecture
+
+The current technical implementation has a Linux-based deployment foundation.
+
+The target deployment model is intended to support:
 
 - Backend application service.
 - Web interface delivery.
 - Data storage.
 - Monitoring workers.
+- Background tasks.
 - Notification delivery.
 - Secure external access.
+- Configuration management.
 - Backup and recovery.
+- Operational health monitoring.
 
-Production deployment details, network addresses, credentials, and server configuration are intentionally excluded from this public document.
+The deployment model may evolve as platform requirements and implementation maturity increase.
 
-## 12. Future Architecture Development
+Production deployment details, network addresses, credentials, and private server configuration are intentionally excluded from this public document.
+
+## 13. Reliability and Operations
+
+The platform should progressively introduce operational reliability mechanisms.
+
+Target areas include:
+
+- Application health checks.
+- Service availability monitoring.
+- Structured logging.
+- Error tracking.
+- Background task supervision.
+- Backup verification.
+- Recovery procedures.
+- Resource utilization monitoring.
+- Configuration validation.
+- Controlled application updates.
+
+These capabilities must be implemented and verified before being considered production-ready.
+
+## 14. Future Architecture Development
 
 The architecture will evolve through the following directions:
 
-1. Consolidation of the existing monitoring foundation.
-2. Separation of logical application modules.
-3. Expansion of infrastructure management.
-4. Introduction of subscriber and billing domains.
-5. Introduction of CRM and service workflows.
-6. Unified analytics and reporting.
-7. API standardization and optional integrations.
-8. Security, performance, and production readiness.
+1. Consolidation and verification of the current technical foundation.
+2. Definition and development of LoviLink Core.
+3. Formalization of module boundaries and interfaces.
+4. Development of the native NMS module.
+5. Expansion of OSS infrastructure management.
+6. Introduction of subscriber and billing domains.
+7. Introduction of CRM and service workflows.
+8. Unified analytics and reporting.
+9. API standardization and optional integrations.
+10. Security, performance, reliability, and production readiness.
 
 See [ROADMAP.md](ROADMAP.md) for the planned development phases.
+
+## 15. Architecture Status and Limitations
+
+This document defines the target architecture and development direction of LoviLink.
+
+It does not claim that every described module, service, API, or security mechanism has already been implemented.
+
+The actual implementation status must be confirmed through source-code review, database inspection, and functional testing.
+
+The architecture may be revised as technical audits and development activities provide new information.
 
 ---
 
@@ -325,97 +490,135 @@ See [ROADMAP.md](ROADMAP.md) for the planned development phases.
 
 ## 1. Обзор архитектуры
 
-LoviLink проектируется как модульная платформа управления сетевой инфраструктурой и бизнес-процессами — Network Operations & Business Management Platform.
+LoviLink — самостоятельно разрабатываемая модульная платформа управления сетевой инфраструктурой и бизнес-процессами — Network Operations & Business Management Platform.
 
-Платформа объединяет мониторинг сети, управление инфраструктурой, абонентские операции, обслуживание услуг, аналитику и необязательные интеграции в едином программном решении.
+Платформа проектируется для объединения мониторинга сети, управления инфраструктурой, абонентских операций, обслуживания услуг, аналитики и необязательных внешних интеграций в едином программном решении.
 
-Разработка ведётся поэтапно: существующие работающие компоненты сохраняются и развиваются там, где это технически оправдано.
+LoviLink развивается на основе собственной архитектурной концепции и создаётся как самостоятельный программный продукт. Основные функции платформы не должны зависеть от обязательного подключения сторонних систем мониторинга, биллинга или управления бизнесом.
 
-Система должна иметь возможность самостоятельной работы без обязательной зависимости от сторонних платформ мониторинга или биллинга.
+Архитектура строится вокруг центрального ядра приложения, общих сервисов, функциональных модулей и определённых интерфейсов взаимодействия с данными и внешними системами.
+
+Разработка ведётся поэтапно. Существующие работающие компоненты сохраняются, проходят техническую проверку и развиваются там, где это оправдано.
 
 ## 2. Архитектурные принципы
 
-Архитектура основывается на следующих принципах:
+Платформа проектируется на основе следующих принципов:
 
-1. **Модульность** — функциональные направления разделяются на логические модули.
-2. **Независимость** — основные функции не требуют обязательного подключения внешних платформ.
-3. **Расширяемость** — новые модули добавляются без необоснованной переработки системы.
-4. **Целостность данных** — у общих инфраструктурных и операционных данных должны быть определены правила хранения и использования.
-5. **Безопасность** — авторизация, разграничение прав и возможность аудита действий.
-6. **Сопровождаемость** — чёткое разделение уровней приложения.
-7. **Совместимость** — существующие сборщики данных и интеграции сохраняются там, где это возможно.
-8. **Масштабируемость** — возможность постепенного увеличения количества устройств, абонентов и операционных задач.
+1. **Самостоятельная разработка** — LoviLink создаётся как независимый программный продукт с собственной архитектурой и логикой приложения.
+2. **Модульность** — функциональные направления разделяются на логические модули с определёнными зонами ответственности.
+3. **Независимость ядра** — основные функции платформы должны работать без обязательных внешних продуктов.
+4. **Расширяемость** — новые модули и возможности добавляются без необоснованного перепроектирования.
+5. **Целостность данных** — для общих данных определяются правила владения, проверки и доступа.
+6. **Безопасность** — аутентификация, авторизация, разграничение прав и аудит являются архитектурными требованиями.
+7. **Сопровождаемость** — уровни приложения и их ответственность чётко разделяются.
+8. **Совместимость** — документированные API обеспечивают контролируемое взаимодействие с внешними системами.
+9. **Масштабируемость** — архитектура должна поддерживать постепенное увеличение количества устройств, абонентов и операционных задач.
+10. **Поэтапная реализация** — документация должна различать уже реализованные возможности и запланированную функциональность.
 
 ## 3. Общая архитектура
 
-Целевая архитектура состоит из следующих логических уровней:
+Целевая архитектура состоит из шести логических уровней:
 
 ```text
-+------------------------------------------------------+
-|                  ПОЛЬЗОВАТЕЛЬСКИЙ ИНТЕРФЕЙС          |
-|                                                      |
-| Обзор | Устройства | Топология | Абоненты            |
-| Биллинг | Инциденты | Заявки | Аналитика             |
-+------------------------------------------------------+
-                         |
-                         v
-+------------------------------------------------------+
-|                  УРОВЕНЬ ПРИЛОЖЕНИЯ                  |
-|                                                      |
-| NMS | OSS | BSS | CRM | Аналитика | Администрирование|
-+------------------------------------------------------+
-                         |
-                         v
-+------------------------------------------------------+
-|                  СЕРВИСНЫЙ УРОВЕНЬ                   |
-|                                                      |
-| Авторизация | Права | Бизнес-логика                 |
-| События | Уведомления | Управление задачами          |
-+------------------------------------------------------+
-                         |
-                         v
-+------------------------------------------------------+
-|                   УРОВЕНЬ ДАННЫХ                     |
-|                                                      |
-| Устройства | История метрик | События                |
-| Абоненты | Услуги | Договоры | Оборудование          |
-+------------------------------------------------------+
-                         |
-                         v
-+------------------------------------------------------+
-|                ИНФРАСТРУКТУРНЫЙ УРОВЕНЬ              |
-|                                                      |
-| Poller | Сборщики | Сетевое оборудование | Внешние API|
-+------------------------------------------------------+
++----------------------------------------------------------+
+|                  ПОЛЬЗОВАТЕЛЬСКИЙ ИНТЕРФЕЙС              |
+|                                                          |
+| Обзор | Устройства | Топология | Абоненты                |
+| Биллинг | Инциденты | Заявки | Аналитика                 |
++----------------------------------------------------------+
+                            |
+                            v
++----------------------------------------------------------+
+|                    УРОВЕНЬ ПРИЛОЖЕНИЯ                    |
+|                                                          |
+| NMS | OSS | BSS | CRM | Аналитика | Администрирование    |
++----------------------------------------------------------+
+                            |
+                            v
++----------------------------------------------------------+
+|                       LOVILINK CORE                      |
+|                                                          |
+| Жизненный цикл | Управление модулями                     |
+| Координация API | Конфигурация | Общий контекст          |
++----------------------------------------------------------+
+                            |
+                            v
++----------------------------------------------------------+
+|                    СЕРВИСНЫЙ УРОВЕНЬ                     |
+|                                                          |
+| Аутентификация | Авторизация | Бизнес-логика             |
+| События | Уведомления | Фоновые задачи                   |
+| Аудит | Проверка данных | Планирование                   |
++----------------------------------------------------------+
+                            |
+                            v
++----------------------------------------------------------+
+|                     УРОВЕНЬ ДАННЫХ                       |
+|                                                          |
+| Устройства | Метрики | События | Абоненты | Услуги       |
+| Договоры | Биллинг | Инвентаризация | Аудит              |
++----------------------------------------------------------+
+                            |
+                            v
++----------------------------------------------------------+
+|                ИНФРАСТРУКТУРНЫЙ УРОВЕНЬ                  |
+|                                                          |
+| Сборщики | Опрос | Базы данных | Сетевое оборудование    |
+| Операционная среда | Необязательные внешние API          |
++----------------------------------------------------------+
 ```
 
-Схема описывает целевую логическую архитектуру. Она не означает, что все модули уже реализованы в виде отдельных сервисов.
+Схема описывает целевую логическую архитектуру. Она не означает, что все модули уже реализованы в виде отдельных сервисов или что вся запланированная функциональность доступна в настоящее время.
 
-## 4. Существующая техническая основа
+Архитектура не требует обязательного использования микросервисной модели развёртывания. На начальном этапе модули могут работать в составе единого приложения, сохраняя чёткие логические границы.
 
-Первоначальный проект NetWatch2 является технической основой для развития LoviLink.
+## 4. LoviLink Core
 
-На данный момент существующее направление разработки включает:
+LoviLink Core — центральная программная основа платформы.
 
-| Компонент | Назначение |
-|---|---|
-| Python | Серверная логика приложения |
-| FastAPI | HTTP API и прикладные интерфейсы |
-| Poller | Периодический опрос оборудования |
-| Collectors | Сбор данных с конкретных типов оборудования |
-| Cache | Доступ к недавно собранным данным |
-| История | Хранение и получение истории мониторинга |
-| Обработка событий | Обнаружение и обработка событий мониторинга |
-| Уведомления | Передача оповещений, в том числе через ntfy |
-| Web-интерфейс | Панель мониторинга и управления |
+Его назначение — предоставление общих механизмов, необходимых функциональным модулям, и обеспечение согласованной работы всей системы.
 
-Существующая реализация развивается постепенно. Точные технические детали и зависимости подлежат проверке по актуальному исходному коду.
+### 4.1. Ответственность ядра
 
-## 5. Основные модули платформы
+- Инициализация приложения и управление жизненным циклом.
+- Регистрация и координация модулей.
+- Управление общей конфигурацией.
+- Общая инфраструктура API.
+- Интеграция механизмов аутентификации и авторизации.
+- Общая проверка данных и обработка ошибок.
+- Общий контекст приложения.
+- Координация фоновых задач.
+- Интеграция журналирования и аудита.
+- Проверка работоспособности и общая диагностика.
 
-### 5.1 NMS — система управления и мониторинга сети
+### 4.2. Принципы построения ядра
 
-Модуль NMS отвечает за мониторинг сети и контроль состояния оборудования.
+Core не должен превращаться в набор несвязанных бизнес-функций.
+
+Его ответственность ограничивается общей инфраструктурой приложения и взаимодействием между модулями.
+
+Специфическая бизнес-логика должна находиться в соответствующем функциональном модуле.
+
+Ядро должно предоставлять модулям документированные внутренние интерфейсы и исключать необоснованные прямые зависимости между ними.
+
+### 4.3. Независимость модулей
+
+Каждый функциональный модуль должен иметь:
+
+- Определённое назначение и зону ответственности.
+- Собственную предметную логику.
+- Явно определённые требования к данным.
+- Контролируемый доступ к общим сервисам.
+- Документированные интерфейсы.
+- Чёткий статус реализации.
+
+Модули должны взаимодействовать через установленные интерфейсы приложения, а не через недокументированные внутренние зависимости.
+
+## 5. Функциональные модули
+
+### 5.1. NMS — система управления и мониторинга сети
+
+NMS отвечает за мониторинг сети и управление состоянием оборудования.
 
 Планируемые функции:
 
@@ -423,18 +626,19 @@ LoviLink проектируется как модульная платформа
 - Обнаружение и регистрация оборудования.
 - Контроль доступности.
 - Мониторинг производительности.
-- Контроль уровня и качества сигнала.
+- Контроль качества сигнала.
 - История измерений.
 - Пороговые значения и триггеры.
 - Классификация и приоритизация событий.
 - Уведомления об авариях.
 - Контроль SLA.
+- Диагностика мониторинга.
 
-Существующие Poller и сборщики данных с оборудования являются основой данного модуля.
+Существующие механизмы мониторинга, логика опроса и специализированные сборщики данных рассматриваются как кандидаты для интеграции в модуль NMS после технической проверки.
 
-### 5.2 OSS — управление сетевой инфраструктурой
+### 5.2. OSS — управление сетевой инфраструктурой
 
-Модуль OSS предназначен для учёта и управления инфраструктурой.
+OSS предназначен для учёта и управления сетевой инфраструктурой и операционными ресурсами.
 
 Планируемые функции:
 
@@ -444,16 +648,20 @@ LoviLink проектируется как модульная платформа
 - Управление IP-адресами.
 - Учёт провайдеров и вышестоящих подключений.
 - Размещение оборудования.
+- Управление инфраструктурными ресурсами.
 - История технического обслуживания.
 - Учёт изменений инфраструктуры.
+- Связи между элементами сети.
 
-### 5.3 BSS — абонентская система и биллинг
+OSS должен обеспечивать структурированное представление физической и логической инфраструктуры.
 
-Модуль BSS предназначен для управления абонентами и предоставляемыми услугами.
+### 5.3. BSS — абонентская система и биллинг
+
+BSS предназначен для управления абонентами, услугами и расчётами.
 
 Планируемые функции:
 
-- База данных абонентов.
+- Реестр абонентов.
 - Клиентские учётные записи.
 - Договоры.
 - Тарифные планы.
@@ -462,12 +670,15 @@ LoviLink проектируется как модульная платформа
 - Лицевые счета.
 - Начисления и платежи.
 - История биллинговых операций.
+- Учёт финансовых операций.
 
-Финансовые операции должны выполняться по контролируемой бизнес-логике с возможностью аудита.
+Финансовые операции должны выполняться по контролируемой бизнес-логике с проверкой данных, ограничением доступа и возможностью аудита.
 
-### 5.4 CRM и Service Desk
+Начисления и финансовые записи должны быть прослеживаемыми и защищёнными от несанкционированного изменения.
 
-Данный модуль предназначен для управления взаимодействием с клиентами и техническими задачами.
+### 5.4. CRM и Service Desk
+
+CRM предназначен для управления взаимодействием с клиентами и сервисными процессами.
 
 Планируемые функции:
 
@@ -479,10 +690,14 @@ LoviLink проектируется как модульная платформа
 - История обслуживания.
 - Уведомления.
 - Контроль выполнения и закрытия заявок.
+- Управление статусами обращений.
+- История коммуникаций.
 
-### 5.5 Аналитика
+Модуль должен обеспечивать прослеживаемый процесс от регистрации обращения до его решения.
 
-Модуль аналитики предназначен для формирования технической и бизнес-отчётности.
+### 5.5. Аналитика
+
+Модуль аналитики предназначен для технической и бизнес-отчётности.
 
 Планируемые функции:
 
@@ -492,9 +707,35 @@ LoviLink проектируется как модульная платформа
 - Анализ инцидентов.
 - Отчёты SLA.
 - Статистика абонентов.
+- Показатели качества предоставления услуг.
 - Операционные панели мониторинга.
+- Бизнес-отчётность.
 
-## 6. Поток данных мониторинга
+Аналитические функции должны использовать проверенные данные соответствующих модулей платформы.
+
+## 6. Общий сервисный уровень
+
+Сервисный уровень предоставляет повторно используемые механизмы, которыми пользуются LoviLink Core и функциональные модули.
+
+Целевые направления сервисов:
+
+| Сервис | Назначение |
+|---|---|
+| Authentication | Проверка личности пользователя |
+| Authorization | Разграничение доступа и прав |
+| Event Processing | Регистрация, классификация и обработка событий |
+| Notifications | Доставка оповещений и системных сообщений |
+| Scheduling | Планирование операций и координация опроса |
+| Background Tasks | Выполнение асинхронных операций |
+| Validation | Проверка входных и бизнес-данных |
+| Audit | Запись значимых действий пользователей и системы |
+| Logging | Диагностика приложения и операционные журналы |
+
+Сервисы должны иметь документированные интерфейсы и предсказуемое поведение.
+
+Общие механизмы следует повторно использовать там, где это оправдано, вместо независимой реализации одинаковой функциональности в каждом модуле.
+
+## 7. Поток данных мониторинга
 
 Целевой процесс мониторинга:
 
@@ -505,10 +746,13 @@ LoviLink проектируется как модульная платформа
 Сборщик данных оборудования
         |
         v
-Poller
+Опрос / Планирование
         |
         v
-Проверка и обработка данных
+Проверка данных
+        |
+        v
+Нормализация
         |
         v
 Кэш / Историческое хранилище
@@ -525,13 +769,19 @@ Poller
 Аналитика и отчёты
 ```
 
-Схема отражает предполагаемый логический процесс. Конкретные механизмы хранения и обработки определяются реализацией соответствующих компонентов.
+Схема отражает целевой логический процесс.
 
-## 7. Прикладной API
+Конкретные методы сбора, интервалы опроса, механизмы хранения и правила обработки определяются реализацией соответствующих компонентов.
 
-FastAPI является основой HTTP API платформы.
+Подсистема мониторинга должна поддерживать различные типы оборудования через отдельные сборщики и общие интерфейсы обработки данных.
 
-К существующим направлениям API относятся:
+## 8. Прикладной API
+
+API приложения обеспечивает контролируемый доступ к функциональности платформы.
+
+Текущая техническая реализация использует FastAPI для HTTP API.
+
+К известным на момент подготовки архитектуры направлениям API относятся:
 
 | Endpoint | Назначение |
 |---|---|
@@ -542,13 +792,25 @@ FastAPI является основой HTTP API платформы.
 | `/api/device/{device_id}/history` | История мониторинга устройства |
 | `/users` | Операции, связанные с пользователями |
 
-Перечень отражает известные на момент подготовки архитектуры области существующего API. Фактическое поведение и ограничения доступа необходимо сверить с актуальным исходным кодом.
+Этот перечень описывает известные направления API и не является полной спецификацией будущего API платформы.
 
-Дальнейшее развитие API должно предусматривать единообразное именование ресурсов, проверку входных данных, аутентификацию, авторизацию и документированные форматы ответов.
+Фактическое поведение, форматы данных и ограничения доступа должны быть проверены по актуальной реализации.
 
-## 8. Архитектура данных
+Дальнейшее развитие API должно предусматривать:
 
-Платформа должна обеспечивать структурированный учёт нескольких категорий данных:
+- Единообразное именование ресурсов.
+- Проверку входных данных.
+- Аутентификацию и авторизацию.
+- Документированные форматы запросов и ответов.
+- Предсказуемую обработку ошибок.
+- Версионирование при необходимости.
+- Контролируемый доступ к функциональности модулей.
+
+Необходимо различать внутренние интерфейсы взаимодействия модулей и внешние интерфейсы интеграций.
+
+## 9. Архитектура данных
+
+LoviLink должен обеспечивать структурированное управление несколькими категориями данных:
 
 - Сетевые устройства.
 - Показатели устройств.
@@ -562,14 +824,31 @@ FastAPI является основой HTTP API платформы.
 - Заявки в техническую поддержку.
 - Пользователи и права доступа.
 - Аудиторские записи.
+- Конфигурация приложения.
+
+### 9.1. Владение данными
+
+Каждый функциональный модуль должен иметь чётко определённую ответственность за данные своей предметной области.
+
+Доступ к общим данным должен осуществляться через документированные интерфейсы приложения и установленные правила проверки.
+
+### 9.2. Целостность данных
 
 Необходимо разделять технические данные мониторинга и бизнес-финансовые данные.
 
 Изменения критически важных бизнес-данных должны иметь прослеживаемую историю.
 
-Окончательная структура базы данных и используемые технологии хранения будут описаны после аудита исходного кода и базы данных.
+Финансовые записи и операции по лицевым счетам требуют дополнительных механизмов целостности и аудита.
 
-## 9. Безопасность и разграничение доступа
+### 9.3. Хранение
+
+Окончательная структура базы данных, технологии хранения, политики хранения истории и связи между данными будут описаны после аудита исходного кода и базы данных.
+
+Непроверенная структура базы данных не должна представляться как уже реализованная возможность платформы.
+
+## 10. Безопасность и разграничение доступа
+
+Безопасность является одним из фундаментальных архитектурных требований.
 
 Целевая модель безопасности предусматривает:
 
@@ -579,29 +858,44 @@ FastAPI является основой HTTP API платформы.
 - Ограничение доступа к технической диагностике.
 - Защищённые административные операции.
 - Журналирование действий.
-- Безопасное хранение конфигураций.
+- Безопасное управление конфигурациями.
 - Резервное копирование и восстановление.
 - Защиту паролей, ключей и инфраструктурных секретов.
+- Проверку пользовательских данных.
+- Контролируемый доступ к чувствительным бизнес-операциям.
 
 Проверка прав доступа должна выполняться на серверной стороне, а не только посредством скрытия элементов интерфейса.
 
-## 10. Интеграции
+Модули должны использовать общие механизмы авторизации и соблюдать правила доступа платформы.
+
+## 11. Интеграции
 
 LoviLink проектируется как самостоятельная платформа.
 
-При необходимости могут использоваться интеграции с:
+Внешние интеграции являются необязательными и могут расширять функциональность системы.
+
+Потенциальные направления интеграций:
 
 - Zabbix.
 - API сетевого оборудования.
-- Сервисами уведомлений.
-- Внешними биллинговыми системами.
-- Сторонними сервисными платформами.
+- Сервисы уведомлений.
+- Внешние биллинговые системы.
+- Сторонние сервисные платформы.
+- Другие системы управления инфраструктурой.
 
-Интеграции должны использовать документированные интерфейсы и не должны превращать внешние продукты в обязательную зависимость основных функций LoviLink.
+Принципы интеграции:
 
-## 11. Архитектура развёртывания
+1. Внешние системы не должны быть обязательными для основных функций LoviLink.
+2. Интерфейсы интеграций должны быть документированы.
+3. Обмен данными должен выполняться контролируемыми механизмами с проверкой данных.
+4. Внешние зависимости должны быть определяемыми и управляемыми.
+5. Платформа должна сохранять собственную логику приложения и ответственность своих модулей.
 
-Существующий проект имеет основу для развёртывания в Linux-среде.
+Интеграция с внешним продуктом не заменяет соответствующий собственный модуль LoviLink.
+
+## 12. Архитектура развёртывания
+
+Текущая техническая реализация имеет основу для развёртывания в Linux-среде.
 
 Целевая модель развёртывания должна поддерживать:
 
@@ -609,29 +903,65 @@ LoviLink проектируется как самостоятельная пла
 - Предоставление веб-интерфейса.
 - Хранение данных.
 - Процессы мониторинга.
+- Фоновые задачи.
 - Доставку уведомлений.
 - Защищённый внешний доступ.
+- Управление конфигурацией.
 - Резервное копирование и восстановление.
+- Контроль работоспособности.
 
-Параметры промышленного развёртывания, сетевые адреса, учётные данные и конфигурации серверов намеренно не включаются в публичную документацию.
+Модель развёртывания может изменяться по мере развития требований и зрелости реализации платформы.
 
-## 12. Дальнейшее развитие архитектуры
+Параметры промышленного развёртывания, сетевые адреса, учётные данные и закрытые конфигурации серверов намеренно не включаются в этот публичный документ.
+
+## 13. Надёжность и эксплуатация
+
+Платформа должна постепенно получать механизмы эксплуатационной надёжности.
+
+Целевые направления:
+
+- Проверка работоспособности приложения.
+- Контроль доступности сервисов.
+- Структурированное журналирование.
+- Учёт ошибок.
+- Контроль фоновых задач.
+- Проверка резервных копий.
+- Процедуры восстановления.
+- Мониторинг использования ресурсов.
+- Проверка конфигурации.
+- Контролируемое обновление приложения.
+
+Эти возможности должны быть реализованы и проверены до того, как их можно будет считать готовыми к промышленной эксплуатации.
+
+## 14. Дальнейшее развитие архитектуры
 
 Развитие архитектуры будет осуществляться по следующим направлениям:
 
-1. Укрепление существующей основы мониторинга.
-2. Разделение логических модулей приложения.
-3. Расширение управления инфраструктурой.
-4. Внедрение абонентского учёта и биллинга.
-5. Внедрение CRM и сервисных процессов.
-6. Объединение аналитики и отчётности.
-7. Стандартизация API и необязательных интеграций.
-8. Повышение безопасности, производительности и готовности к промышленной эксплуатации.
+1. Проверка и укрепление текущей технической основы.
+2. Определение и разработка LoviLink Core.
+3. Формализация границ модулей и интерфейсов.
+4. Разработка собственного модуля NMS.
+5. Расширение управления инфраструктурой OSS.
+6. Внедрение абонентского учёта и биллинга.
+7. Внедрение CRM и сервисных процессов.
+8. Объединение аналитики и отчётности.
+9. Стандартизация API и необязательных интеграций.
+10. Повышение безопасности, производительности, надёжности и готовности к промышленной эксплуатации.
 
 План этапов разработки представлен в документе [ROADMAP.md](ROADMAP.md).
+
+## 15. Статус архитектуры и ограничения
+
+Этот документ определяет целевую архитектуру и направление развития LoviLink.
+
+Он не утверждает, что каждый описанный модуль, сервис, API или механизм безопасности уже реализован.
+
+Фактический статус реализации должен подтверждаться анализом исходного кода, проверкой базы данных и функциональным тестированием.
+
+Архитектура может пересматриваться по мере получения результатов технического аудита и выполнения разработки.
 
 ---
 
 **LoviLink by N3M0**  
-*Network Operations & Business Management Platform*  
-*Платформа управления сетевой инфраструктурой и бизнес-процессами*
+*Independent Network Operations & Business Management Platform*  
+*Самостоятельная платформа управления сетевой инфраструктурой и бизнес-процессами*
